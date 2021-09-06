@@ -22,20 +22,8 @@ vignettes/*.pdf
 # Drake cache
 .drake/
 
-# Data
-*.txt
-*.csv
-*.tsv
-*.Rdata
-*.RData.Tmp1
-*.odb
-*.zip
-*.sql
-*.sqlite
-*.rar
-*.dat
-*.rds
-*.rtf
+# Raw data folder
+data/
 
 # Rasters & shapefiles
 *.bil
