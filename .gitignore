@@ -1,0 +1,63 @@
+# History files
+.Rhistory
+.Rapp.history
+
+# Session Data files
+.RData
+
+# RStudio files
+.Rproj.user/
+
+# Produced vignettes
+vignettes/*.html
+vignettes/*.pdf
+
+# OAuth2 token, see https://github.com/hadley/httr/releases/tag/v0.3
+.httr-oauth
+.Rproj.user
+
+# Markdown cache
+*_cache/
+
+# Drake cache
+.drake/
+
+# Data
+*.txt
+*.csv
+*.tsv
+*.Rdata
+*.RData.Tmp1
+*.odb
+*.zip
+*.sql
+*.sqlite
+*.rar
+*.dat
+*.rds
+*.rtf
+
+# Rasters & shapefiles
+*.bil
+*.blw
+*.hdr
+*.prj
+*.hproj
+
+# Figures & output
+*.html
+*.pdf
+*.Rmd
+*.doc
+*.docx
+*.tif
+*.tiff
+*.eps
+*.png
+*.jpg
+*.jpeg
+*.ai
+
+# DS store
+*.DS_Store
+_DS_Store
