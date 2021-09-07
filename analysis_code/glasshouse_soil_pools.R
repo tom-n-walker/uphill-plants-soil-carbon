@@ -325,5 +325,3 @@ hist(r12)
 # test main effects
 m12a <- update(m12, ~.- treatment)
 anova(m12, m12a)
-
-

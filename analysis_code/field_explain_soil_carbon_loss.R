@@ -169,7 +169,28 @@ anova(m5)
 
 #### ANALYSE BACKGROUND COMMUNITY COMPOSITION ----------------------------------
 
+
 ## Analyse treatment effects on raw NMDS 1 scores ----
+# build model
+m6 <- lme(
+  bgPCC1 ~ treatment * site,
+  random = ~ 1 | site_block,
+  data = fieldData$plantsFull, 
+  method = "ML"
+)
+# diagnose model
+r6 <- residuals(m6, type = "normalized")
+par(mfrow = c(1, 3))
+plot(r6 ~ fitted(m6))
+boxplot(r6 ~ fieldData$plantsFull$treatment)
+hist(r6)
+# test main effects
+m6a <- update(m6, ~.- treatment:site)
+anova(m6, m6a)
+anova(m6a, update(m6a, ~.- treatment))
+anova(m6a, update(m6a, ~.- site))
+
+## Analyse treatment effects on raw NMDS 2 scores ----
 # build model
 m7 <- lme(
   bgPCC2 ~ treatment * site,
@@ -190,6 +211,8 @@ anova(m7a, update(m7a, ~.- treatment))
 anova(m7a, update(m7a, ~.- site))
 
 ## Analyse NMDS change effects on soil C loss ----
+# remove one very large value for central alps (no effect on result)
+responses[responses$bgPCC2 > 30, "bgPCC2"] <- NA
 # build model
 m8 <- lm(
   Csoil ~ bgPCC1 + bgPCC2 + site,
@@ -200,8 +223,3 @@ par(mfrow = c(1, 4))
 plot(m8)
 # main effects
 anova(m8)
-
-
-#### PLOT ----------------------------------------------------------------------
-
-

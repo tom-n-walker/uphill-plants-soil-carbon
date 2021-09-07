@@ -59,7 +59,7 @@ match_soil <- function(.x, .y, match){
   names(match_by) <- c("elevation", "block", match)
   # join data and return
   out <- left_join(.x, .y, by = match_by) %>%
-    select(DOC:CUE)
+    select(Soil.temp:CUE)
   return(out)
 }
 

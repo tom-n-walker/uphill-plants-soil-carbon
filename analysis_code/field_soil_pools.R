@@ -39,7 +39,8 @@ soil <- soil %>%
   # make site-level blocking factor
   mutate(site_block = tolower(paste0(substr(site, 1, 1), block)))
 # subset soil data for detailed microbial measures
-soilDeep <- filter(soil, site == "lavey")
+soilDeep <- filter(soil, site == "lavey") %>%
+  mutate(treatment = factor(treatment))
 # add blocking factor fluxes
 fluxes <- fluxes %>%
   mutate(site_block = tolower(paste0(substr(site, 1, 1), block)))
@@ -201,3 +202,10 @@ anova(m7, update(m7, ~.- treatment))
 m7reml <- update(m7, method = "REML")
 emmeans(m7reml, pairwise ~ treatment)
 
+
+## Correlate microbial biomass and soil C -----
+
+cor.test(
+  x = soilDeep$Csoil,
+  y = soilDeep$Cmic
+)
