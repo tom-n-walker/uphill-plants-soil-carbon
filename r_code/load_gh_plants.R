@@ -7,13 +7,12 @@
 
 load_gh_plants <- function(){
   # load
-  plants <- fread("./data/from_initial_results/ghouse_plants.csv") %>%
+  plants <- fread("./data/glasshouse_plants.csv") %>%
     as.data.frame %>%
-    # drop NAs and mixed treatment
-    drop_na %>%
-    filter(Treatment != "Mixed") %>%
     # select traits of interest
-    select(Pot:PFT, rAGB.mg:rTB.mg, SLA.cm2.g, Amax, gsmax)
+    select(Pot:PFT, rAGB.mg:rTB.mg, SLA.cm2.g, Amax, gsmax) %>%
+    # drop NAs
+    drop_na
   # return
   return(plants)
 }

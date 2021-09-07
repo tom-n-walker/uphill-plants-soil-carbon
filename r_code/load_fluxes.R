@@ -7,7 +7,7 @@
 
 load_fluxes <- function(){
   # load fluxes
-  calFlux <- fread("./data/from_initial_results/ready_cal_gas_data.csv") %>%
+  calFlux <- fread("./data/field_calanda_gases.csv") %>%
     mutate(Treatment = substr(Treatment, nchar(Treatment), nchar(Treatment))) %>%
     mutate(site = "calanda") %>%
     # add leading zero to block
@@ -18,7 +18,7 @@ load_fluxes <- function(){
     )) %>%
     select(site, Date, Block, Treatment, Temp.C:Soil.WVC, ER) %>%
     dplyr::rename_with(.cols = Date:Treatment, tolower)
-  lavFlux <- fread("./data/from_initial_results/ready_lav_gas_data.csv") %>%
+  lavFlux <- fread("./data/field_lavey_gases.csv") %>%
     mutate(Treatment = substr(Treatment, nchar(Treatment), nchar(Treatment))) %>%
     mutate(site = "lavey") %>%
     # add leading zero to block

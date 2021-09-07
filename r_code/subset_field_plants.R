@@ -16,12 +16,12 @@ subset_field_plants <- function(field_data){
     ungroup %>%
     # select columns
     select(site, elevation:treatment, Csoil) %>%
+    # filter for only low elevation site data
+    filter(treatment != "C") %>%
     # make data frame
     as.data.frame
   # Calculate soil C loss by block
   soilCloss <- factorSoil %>%
-    # remove high site control (not important here) and subset columns
-    filter(treatment != "C") %>%
     # arrange by block and group
     arrange(site, block, treatment) %>%
     # group by site and block, calculate response ratio
@@ -31,13 +31,22 @@ subset_field_plants <- function(field_data){
     as.data.frame
   
   ## Summarise basic PCC data ----
-  # basic formatting
+  # Alpine control not important for this analysis - may even mask differences
+  # between W and WL at low elevation (e.g. with ordinations). Removing.
   basicPCC <- field_data %>%
+    # select wanted data
+    select(treatments, group_cover, focal_cover, bkgnd_ra, all_cwm) %>%
+    # filter all nested data frames for low elevation site only
+    mutate(group_cover = map2(group_cover, treatments, ~filter(.x, .y$treatment != "C"))) %>%
+    mutate(bkgnd_ra = map2(bkgnd_ra, treatments, ~filter(.x, .y$treatment != "C"))) %>%
+    mutate(focal_cover = map2(focal_cover, treatments, ~filter(.x, .y$treatment != "C"))) %>%
+    mutate(all_cwm = map2(all_cwm, treatments, ~filter(.x, .y$treatment != "C"))) %>%
+    mutate(treatments = map(treatments, ~filter(.x, treatment != "C"))) %>%
     # do nmds on background relative abundance
     mutate(bkgnd_nmds = map(
       bkgnd_ra, 
       function(x){
-        nmds <- metaMDS(x, k = 2, trymax = 1000)
+        nmds <- metaMDS(x, k = 2, trymax = 100)
         out <- as.data.frame(nmds$points)
         colnames(out) <- c("bgPCC1", "bgPCC2")
         return(out)
@@ -69,7 +78,7 @@ subset_field_plants <- function(field_data){
     mutate(Csoil = factorSoil$Csoil) %>%
     mutate(site_block = paste0(substr(site, 1, 1), block)) %>%
     # select columns and make data frame
-    select(site, block, site_block, treatment, Csoil, moss_bio:cwmPC3) %>%
+    select(site, block, site_block, treatment, Csoil, vege_bio:cwmPC3) %>%
     as.data.frame
   # create focal biomass for adding to response data frame (below)
   focalBio <- factorPCC %>% 
@@ -78,8 +87,6 @@ subset_field_plants <- function(field_data){
     .$focal_bio
   # calculate response ratios
   pccResponse <- factorPCC %>%
-    # remove high site control (not important here) and subset columns
-    filter(treatment != "C") %>%
     # arrange by block and group
     arrange(site, site_block, block, treatment) %>%
     # group by site and block, calculate response ratio

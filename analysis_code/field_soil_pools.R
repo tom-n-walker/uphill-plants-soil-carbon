@@ -18,10 +18,10 @@ options(
 
 ## Libraries ----
 # standard library set
-library(tidyverse)
 library(nlme)
 library(emmeans)
 library(multcomp)
+library(tidyverse)
 
 
 #### DATA ----------------------------------------------------------------------

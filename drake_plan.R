@@ -37,10 +37,21 @@ load_plan <- drake_plan(
 
 ## Format field data ----
 field_plan <- drake_plan(
-  cover_data = format_relevees(raw_relevees = raw_relevees),
-  trait_data = process_try(cover_data = cover_data, full_try = full_try),
-  field_data = combine_field_data(cover_data = cover_data, trait_data = trait_data, raw_soil = raw_soil),
-  field_data_subset = subset_field_plants(field_data = field_data)
+  cover_data = format_relevees(
+    raw_relevees = raw_relevees
+  ),
+  trait_data = process_try(
+    cover_data = cover_data, 
+    full_try = full_try
+  ),
+  field_data = combine_field_data(
+    cover_data = cover_data, 
+    trait_data = trait_data, 
+    raw_soil = raw_soil
+  ),
+  field_data_subset = subset_field_plants(
+    field_data = field_data
+  )
 )
 
 # ## Write all data to file ----
