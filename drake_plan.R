@@ -43,6 +43,41 @@ field_plan <- drake_plan(
   field_data_subset = subset_field_plants(field_data = field_data)
 )
 
+# ## Write all data to file ----
+# export_plan <- drake_plan(
+#   localExport = target(
+#     command = {
+#       save(
+#         # Original species information
+#         edAllSpp,
+#         # Species information
+#         pfSpecies, edSpecies,
+#         # Phylogenies
+#         pfPhylogeny, edPhylogeny,
+#         # Trait data
+#         pfTraits, edTraits,
+#         pfTraitsPCA, edTraitsPCA,
+#         # Metabolite data
+#         pfMtbs, edMtbs,
+#         pfMtbsDiv, edMtbsDiv,
+#         pfMtbsPCoA, edMtbsPCoA,
+#         # Biogeography data
+#         pfBioGeo, edBioGeo,
+#         pfClimPCA, edClimPCA,
+#         # Output
+#         file = file_out("./data/exported/all_data.RData")
+#       )
+#       save(
+#         # Full biogeographic data for plotting
+#         pfBioGeoAll, edBioGeoAll,
+#         # Output
+#         file = file_out("./data/exported/geo_data.RData")
+#       )
+#       
+#     }
+#   )
+# )
+
 
 #### MAKE ----------------------------------------------------------------------
 
