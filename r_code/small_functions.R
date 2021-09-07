@@ -23,15 +23,10 @@ add_cwm_traits <- function(.x, .y){
 
 # calculate biomass from cover data
 biomass <- function(x, y){
-  # index for vegetation types
-  moss_index <- colnames(x) %in% "mosses"
+  # index for bare ground
   bare_index <- colnames(x) %in% "bare.ground"
-  vasc_index <- !(colnames(x) %in% c("mosses", "bare.ground"))
   # select vegetation types
-  bio_out <- data.frame(moss_bio = x[, moss_index] %>% rowSums,
-                        vasc_bio = x[, vasc_index] %>% rowSums,
-                        bare_bio = x[, bare_index] %>% rowSums,
-                        vege_bio = x[, !bare_index] %>% rowSums,
+  bio_out <- data.frame(vege_bio = x[, !bare_index] %>% rowSums,
                         focal_bio = rowSums(y)) %>%
     as_tibble %>%
     mutate(bkgnd_bio = vege_bio - focal_bio)
@@ -64,7 +59,7 @@ match_soil <- function(.x, .y, match){
   names(match_by) <- c("elevation", "block", match)
   # join data and return
   out <- left_join(.x, .y, by = match_by) %>%
-    select(Soil.temp:CUE)
+    select(DOC:CUE)
   return(out)
 }
 

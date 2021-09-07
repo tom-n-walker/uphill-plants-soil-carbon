@@ -7,7 +7,7 @@
 
 load_soil <- function(){
   # load pools
-  pools <- fread("./data/from_initial_results/ready_all_data.csv") %>%
+  pools <- fread("./data/field_soil_data.csv") %>%
     # edit treatment and column names, remove species data
     mutate(Treatment = substr(Treatment, nchar(Treatment), nchar(Treatment))) %>%
     mutate(Site = tolower(Site)) %>%
@@ -19,10 +19,10 @@ load_soil <- function(){
     )) %>%
     # sort column names and select variables
     dplyr::rename_with(.cols = Sample:Treatment, tolower) %>%
-    select(-sample, -spp_PC1, -spp_PC2) %>%
+    select(-sample) %>%
     as.data.frame
   # load lavey extra data and combine
-  lav <- fread("./data/from_initial_results/ready_lav_data.csv") %>%
+  lav <- fread("./data/field_deep_soil_data.csv") %>%
     as.data.frame %>%
     select(Block:Elevation, MR.ugC.g.h:CUE) %>%
     rename_with(.cols = Block:Elevation, tolower) %>%

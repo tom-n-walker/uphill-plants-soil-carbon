@@ -7,15 +7,15 @@
 
 load_gh_soil <- function(){
   # load pot level data
-  pots <- fread("./data/from_initial_results/collated_pot_data.csv") %>%
+  pots <- fread("./data/glasshouse_pot_data.csv") %>%
     as.data.frame %>%
     # drop mixed treatment
     filter(Treatment != "Mixed") %>%
     # rename treatments
     mutate(Treatment = substr(Treatment, 1, 1)) %>%
-    rename_with(.cols = Pot:Sp.richness, tolower)
+    rename_with(.cols = Pot:Block, tolower)
   # load fluxes
-  fluxes <- fread("./data/from_initial_results/time_incubation_co2.csv") %>%
+  fluxes <- fread("./data/glasshouse_incubation_co2.csv") %>%
     as.data.frame %>%
     # remove mixed treatment
     filter(Treatment != "M") %>%
@@ -23,7 +23,7 @@ load_gh_soil <- function(){
     filter(Hours < (6 * 7 * 24 + 0.2)) %>%
     select(Day, Hours, Sample:R.ugC.g.h)
   # load soil model and add to pot data
-  twoPool <- fread("./data/from_initial_results/soil_pool_model.csv") %>%
+  twoPool <- fread("./data/glasshouse_soil_pool_model.csv") %>%
     as.data.frame %>%
     filter(!is.na(p)) %>%
     # drop mixed treatment

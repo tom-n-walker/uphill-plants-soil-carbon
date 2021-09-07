@@ -6,8 +6,8 @@
 #### ---------------------------------------------------------------------------
 
 load_try <- function(){
-  trySpecies <- fread("./data/try_impute/try_species.csv")
-  try <- fread("./data/try_impute/try_nums_bhpmf_miss.csv")
+  trySpecies <- fread("./data/try_species.csv")
+  try <- fread("./data/try_nums.csv")
   tryImputed <- apply_mice(try, 5)
   tryOut <- bind_cols(trySpecies, tryImputed) %>% as.data.frame
   return(tryOut)

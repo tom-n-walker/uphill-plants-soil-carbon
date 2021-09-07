@@ -43,6 +43,7 @@ process_try <- function(cover_data, full_try){
     str_replace_all(., "\\.", " ")
   out <- okTraits %>%
     mutate(is_focal = ifelse(accepted_name %in% lowlands, "yes", "no")) %>%
-    select(accepted_name, is_focal, leaf_area:SLA)
+    # remove leaf P (poor coverage) and SSD (poor coverage; all herbs)
+    select(accepted_name, is_focal, leaf_area:leaf_N, plant_height:SLA)
   return(out)  
 }
