@@ -14,6 +14,15 @@ load_gh_soil <- function(){
     # rename treatments
     mutate(Treatment = substr(Treatment, 1, 1)) %>%
     rename_with(.cols = Pot:Block, tolower)
+  # load pot level co2 fluxes
+  potCo2 <- fread("./data/glasshouse_pot_fluxes.csv") %>%
+    as.data.frame %>%
+    # remove mixed treatment
+    filter(Treatment != "Mixture") %>%
+    # rename treatments
+    mutate(Treatment = substr(Treatment, 1, 1)) %>%
+    select(Date, Pot:PAR, NEE = NEE.ugC.g.h, GPP = GPP.ugC.g.h, ER = ER.ugC.g.h) %>%
+    rename_with(.cols = Date:PAR, tolower)
   # load fluxes
   fluxes <- fread("./data/glasshouse_incubation_co2.csv") %>%
     as.data.frame %>%
@@ -40,6 +49,7 @@ load_gh_soil <- function(){
   # return
   out <- list(
     pot_plants = pots,
+    pot_co2 = potCo2,
     pot_soil = soil,
     mic_resp = fluxes
   )
