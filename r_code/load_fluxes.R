@@ -16,7 +16,7 @@ load_fluxes <- function(){
       Block,
       paste0(substr(Block, 1, 1), "0", substr(Block, 2, 2))
     )) %>%
-    select(site, Date, Block, Treatment, Temp.C:Soil.WVC, ER) %>%
+    select(site, Date, Block, Treatment, Temp.C:PAR, GPP, NEE, ER) %>%
     dplyr::rename_with(.cols = Date:Treatment, tolower)
   lavFlux <- fread("./data/field_lavey_gases.csv") %>%
     mutate(Treatment = substr(Treatment, nchar(Treatment), nchar(Treatment))) %>%
@@ -27,7 +27,7 @@ load_fluxes <- function(){
       Block,
       paste0(substr(Block, 1, 1), "0", substr(Block, 2, 2))
     )) %>%
-    select(site, Date, Block, Treatment, Temp.C:Soil.WVC, ER) %>%
+    select(site, Date, Block, Treatment, Temp.C:PAR, GPP, NEE, ER) %>%
     dplyr::rename_with(.cols = Date:Treatment, tolower)
   # collate & return
   fluxes <- bind_rows(calFlux, lavFlux) %>% as.data.frame

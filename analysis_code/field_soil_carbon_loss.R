@@ -155,3 +155,20 @@ siPlot <- ggplot(soilCCWI) +
 
 ## Combine ----
 cowplot::plot_grid(mainPlot, siPlot)
+
+
+## Quantify numbers ----
+# get means
+meanC <- soilPlotData$mean
+seC <- soilPlotData$se
+# calanda
+meanC[2] - meanC[1]
+sqrt(seC[2]^2 + seC[1]^2)
+# lavey
+meanC[5] - meanC[4]
+sqrt(seC[5]^2 + seC[4]^2)
+# all
+
+
+
+

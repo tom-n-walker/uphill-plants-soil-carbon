@@ -25,6 +25,9 @@ vignettes/*.pdf
 # Raw data folder
 data/
 
+# Figure folder
+figure_builds/
+
 # Rasters & shapefiles
 *.bil
 *.blw

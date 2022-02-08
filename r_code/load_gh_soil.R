@@ -13,16 +13,9 @@ load_gh_soil <- function(){
     filter(Treatment != "Mixed") %>%
     # rename treatments
     mutate(Treatment = substr(Treatment, 1, 1)) %>%
-    rename_with(.cols = Pot:Block, tolower)
-  # load pot level co2 fluxes
-  potCo2 <- fread("./data/glasshouse_pot_fluxes.csv") %>%
-    as.data.frame %>%
-    # remove mixed treatment
-    filter(Treatment != "Mixture") %>%
-    # rename treatments
-    mutate(Treatment = substr(Treatment, 1, 1)) %>%
-    select(Date, Pot:PAR, NEE = NEE.ugC.g.h, GPP = GPP.ugC.g.h, ER = ER.ugC.g.h) %>%
-    rename_with(.cols = Date:PAR, tolower)
+    rename_with(.cols = Pot:Block, tolower) %>%
+    # create root to shoot ratio
+    mutate(R2S = BGB.g/AGB.g)
   # load fluxes
   fluxes <- fread("./data/glasshouse_incubation_co2.csv") %>%
     as.data.frame %>%
@@ -44,12 +37,11 @@ load_gh_soil <- function(){
     select(pot:block, Cmic.ugC.g:baseMR.ugC.g.h, DOM.a350:DOM.C6) %>%
     left_join(., twoPool, by = c("pot" = "sample"))
   pots <- pots %>%
-    select(pot:block, AGB.g:cGS.umol.m2.s) %>%
+    select(pot:block, AGB.g:Tbio.g, R2S, cSLA.cm2.g:cGS.umol.m2.s) %>%
     filter(treatment != "B")
   # return
   out <- list(
     pot_plants = pots,
-    pot_co2 = potCo2,
     pot_soil = soil,
     mic_resp = fluxes
   )
